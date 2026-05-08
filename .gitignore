@@ -2,4 +2,4 @@ __pycache__
 .vscode
 benchmarks/__pycache__
 market_sim/__pycache__
-server/__pycache__
+market_sim/server/__pycache__
