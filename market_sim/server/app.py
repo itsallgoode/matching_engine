@@ -437,33 +437,6 @@ async def websocket_market_data(websocket: WebSocket) -> None:
 
     except WebSocketDisconnect:
         await market_data.disconnect(websocket)
-    
-def build_order_from_array(owner_id: str, raw: list[Any]) -> Order:
-    if len(raw) != 5:
-        raise ValueError("order array must have 5 fields")
-
-    symbol_raw, side_raw, order_type_raw, price_ticks, quantity = raw
-
-    side = Side(side_raw)
-    order_type = OrderType(order_type_raw)
-
-    if quantity <= 0:
-        raise ValueError("quantity must be positive")
-
-    if order_type == OrderType.LIMIT and price_ticks is None:
-        raise ValueError("limit order must include price_ticks")
-
-    if order_type == OrderType.MARKET:
-        price_ticks = None
-
-    return Order(
-        owner_id=owner_id,
-        symbol=symbol_raw.upper(),
-        side=side,
-        order_type=order_type,
-        price_ticks=price_ticks,
-        quantity=quantity,
-    )
 
 def build_order_from_array(owner_id: str, raw: list[Any]) -> Order:
     if len(raw) != 5:
